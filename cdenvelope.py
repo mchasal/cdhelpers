@@ -26,7 +26,7 @@ i=1
 list=''
 for line in tlines:
 	if (line.startswith("#EXTINF")):
-		pre, title = line.split("-", 2)
+		pre, title = line.split(",", 2)
 		title = title.strip()
 #		print str(i).rjust(2,' ') + " " +  title
 		list += str(i).rjust(2,' ') + " " +  title + "%"
@@ -34,6 +34,8 @@ for line in tlines:
 
 # Generate envelope
 cmd = 'cdlabelgen --create-envelope -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
+# This command will add an image, TODO add it to the args.
+#cmd = 'cdlabelgen --create-envelope -S 0 -e ~/Downloads/fro.eps -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
 
 call(cmd, shell=True)
 
