@@ -26,7 +26,7 @@ i=1
 list=''
 for line in tlines:
 	if (line.startswith("#EXTINF")):
-		pre, title = line.split(",", 2)
+		pre, title = line.split(",", 1)
 		title = title.strip()
 #		print str(i).rjust(2,' ') + " " +  title
 		list += str(i).rjust(2,' ') + " " +  title + "%"
