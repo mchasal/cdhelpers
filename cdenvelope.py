@@ -8,17 +8,29 @@ import shutil
 from subprocess import call
 import time
 
-# Save .m3u file
-if not (len(sys.argv) == 4):
-	print "Specify .m3u filename & CD title"
-	print "Usage: playlist title artist"
+# Parse args, look into using argparse library
+if not (len(sys.argv) >= 4):
+	print "Specify .m3u filename & CD title and optionally, a ps image file"
+	print "Usage: playlist title subtitle [image.ps]"
 	sys.exit(2)
+
 m3ufile=sys.argv[1]
 album=sys.argv[2]
 artist=sys.argv[3]
+
 if not os.path.isfile(m3ufile):
-	print "m3u file not found"
+	print "Playlist file not found!"
 	sys.exit(1)
+
+# Check if there's an image file given
+imagearg = ""
+if (len(sys.argv) == 5):
+	imagefile=sys.argv[4]
+	if not os.path.isfile(imagefile):
+		print "Image file not found!"
+		sys.exit(1)
+	else:
+		imagearg='-e ' + imagefile
 
 file = open(m3ufile, 'r')
 tlines = file.readlines()
@@ -33,11 +45,7 @@ for line in tlines:
 		i += 1
 
 # Generate envelope
-#cmd = 'cdlabelgen --create-envelope -b --cover-items 14 -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
-cmd = 'cdlabelgen --create-envelope -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
-# This command will add an image, TODO add it to the args.
-# Image needs to be ps: convert Birthday.png eps2:Birthday.ps
-#cmd = 'cdlabelgen --create-envelope -S 0  -C -e Declan14.eps -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
+cmd = 'cdlabelgen --create-envelope -S 0 -b -D -o /tmp/cdenv.ps ' + imagearg + ' -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
 
 print(cmd)
 
