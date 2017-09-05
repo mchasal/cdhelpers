@@ -23,14 +23,15 @@ if not os.path.isfile(m3ufile):
 	sys.exit(1)
 
 # Check if there's an image file given
-imagearg = ""
+imagearg = "--no-tray-plaque" # If no image, no tray plaque
 if (len(sys.argv) == 5):
 	imagefile=sys.argv[4]
 	if not os.path.isfile(imagefile):
 		print "Image file not found!"
 		sys.exit(1)
 	else:
-		imagearg='-e ' + imagefile
+		# If an image, no cover plaque
+		imagearg='--no-cover-plaque -e ' + imagefile
 
 file = open(m3ufile, 'r')
 tlines = file.readlines()
@@ -45,7 +46,7 @@ for line in tlines:
 		i += 1
 
 # Generate envelope
-cmd = 'cdlabelgen --create-envelope -S 0 -b -D -o /tmp/cdenv.ps ' + imagearg + ' -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
+cmd = 'cdlabelgen --create-envelope -S 0 -D -o /tmp/cdenv.ps ' + imagearg + ' -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
 
 print(cmd)
 
