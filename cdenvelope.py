@@ -33,9 +33,13 @@ for line in tlines:
 		i += 1
 
 # Generate envelope
+#cmd = 'cdlabelgen --create-envelope -b --cover-items 14 -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
 cmd = 'cdlabelgen --create-envelope -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
 # This command will add an image, TODO add it to the args.
-#cmd = 'cdlabelgen --create-envelope -S 0 -e ~/Downloads/fro.eps -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
+# Image needs to be ps: convert Birthday.png eps2:Birthday.ps
+#cmd = 'cdlabelgen --create-envelope -S 0  -C -e Declan14.eps -b -D -o /tmp/cdenv.ps -i "' + list + '" -c "' + album + '" -s "' + artist + '"'
+
+print(cmd)
 
 call(cmd, shell=True)
 
